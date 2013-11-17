@@ -1,0 +1,59 @@
+
+
+
+class Main {
+	
+	public static void main(String[] _) {
+		System.out.println("it is start!");
+		
+	}
+}//
+
+
+interface Estado {
+	int CALCULANDORESULTADO = 0,
+		ESCOLHENDOOPERACAO = 1,
+		DIGITANDONUMERO = 2;
+		
+	void eval();
+	void eval(char x); //?x='0'|..|'9'|','
+	void eval(String op); //?s='+'|'-'|'*'|'/'
+}//
+
+class Calculadora {
+  private Estado[] q = new Estado[3];
+  Calculadora() {
+  	q[Estado.CALCULANDORESULTADO] = new CalculandoResultado();
+  	//...
+  }
+  
+  int atual = Estado.CALCULANDORESULTADO;
+  double acc,val;
+  String digs;
+  String op;
+  
+  void init() {}
+  void exe() {}
+  void show(String n) {}
+
+			class CalculandoResultado implements Estado {
+			  public void eval() { //?'=' 
+				exe();
+			  }
+			  public void eval(char x) { //?x='0'|..|'9'|','
+				acc = 0.0;
+				op = "soma";
+				digs = "" + x;
+				show(digs);
+				atual = DIGITANDONUMERO;
+			  }
+			  public void eval(String s) { //?s='+'|'-'|'*'|'/'
+				val = acc;
+				op = s;
+				atual = ESCOLHENDOOPERACAO;
+			  }
+			}//
+			
+			//...
+
+}//Calculadora
