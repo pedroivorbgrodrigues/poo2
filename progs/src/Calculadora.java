@@ -40,7 +40,7 @@ public class Calculadora implements ActionListener {
 
     private JTextField visor;
     String digs = "";
-    double acc = 0.0, val = 0.0;
+    double acc = 0.0, val = 0.0, mem = 0.0;
     OpBin op = null;
     OpUn opu = null;
     Estado[] estado;
@@ -82,6 +82,26 @@ public class Calculadora implements ActionListener {
         public double un(double x) {
             return Math.sqrt(x);
         }
+    }, ms = new OpUn(){
+        public double un(double x) {
+            mem = x;
+            return mem;
+        }
+    }, madd = new OpUn(){
+        public double un(double x) {
+            mem += x;
+            return x;
+        }
+    }, msub = new OpUn(){
+        public double un(double x) {
+            mem -= x;
+            return x;
+        }
+    }, percentage = new OpUn(){
+        public double un(double x) {
+            val = ((acc)*(x/100));
+            return val;
+        }
     }
             ;
 
@@ -102,7 +122,8 @@ public class Calculadora implements ActionListener {
         if(isBin){
             acc = op.bin(acc, val);
         }else{
-            acc = opu.un(acc);
+            acc = opu.un(val);
+            val = acc;
         }
         
         show(acc);
@@ -264,6 +285,26 @@ public class Calculadora implements ActionListener {
         } else if (tecla.equals("RAIZ")) {
             isBin = false;
             estado[atual].eval(raiz);   
+        } else if (tecla.equals("UMSOBREX")){
+            isBin = false;
+            estado[atual].eval(umsobrex);
+        } else if (tecla.equals("MC")) {
+            mem = 0.0;
+        } else if (tecla.equals("MR")) {
+            val = mem;
+            show(val);   
+        } else if (tecla.equals("MS")){
+            isBin = false;
+            estado[atual].eval(ms);
+        } else if (tecla.equals("M+")) {
+            isBin = false;
+            estado[atual].eval(madd);   
+        } else if (tecla.equals("M-")){
+            isBin = false;
+            estado[atual].eval(msub);
+        } else if (tecla.equals("PORCENTAGEM")){
+            isBin = false;
+            estado[atual].eval(percentage);
         }
 
     }
