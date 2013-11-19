@@ -34,6 +34,10 @@ interface Estado {
     void eval(OpBin op);//?op='+'|'-'|'*'|'/'
 
     void eval(OpUn opu);
+    
+    void clear();
+    
+    void clearEntry();
 }//
 
 public class Calculadora implements ActionListener {
@@ -117,6 +121,35 @@ public class Calculadora implements ActionListener {
         };
 
     }
+    
+    /*void clearEntry()
+    {
+        val = 0;
+        digs = "";
+        show(val);
+        decimal = false;
+        atual = 0;
+    }
+    
+    void clear()
+    {
+        clearEntry();
+        acc = 0;
+    }
+    */
+    void inverterSinal()
+    {
+        String s = visor.getText();
+        digs = "" + (-1*Double.parseDouble(s));
+        visor.setText(digs);
+    }
+    
+    void porcentagem()
+    {
+        val = Double.parseDouble(digs);
+        val = acc*(val/100);
+        show(val);
+    }
 
     void exe() {
         if(isBin){
@@ -133,11 +166,13 @@ public class Calculadora implements ActionListener {
     void show(double val) {
         //visor.setText("["+ estado + "] " + val);
         visor.setText("" + val);
+        digs = ""+val;
     }
 
     void show(String val) {
         //visor.setText("["+ estado + "] " + val);
         visor.setText(val);
+        digs = ""+val;
     }
 
 //estado 0
@@ -167,6 +202,14 @@ public class Calculadora implements ActionListener {
             atual = 2;
             exe();
         }
+        
+        public void clear(){
+            
+        }
+        
+        public void clearEntry(){
+            
+        }
     }//interna
 
 //estado 1
@@ -182,9 +225,9 @@ public class Calculadora implements ActionListener {
         }
 
         public void eval(char x) {//?x='0'|..|'9'|','
-            if(!digs.equals("0") || x != '0')
+            if(!digs.equals("0") || digs.equals("0.0") || x != '0')
             {
-                if(digs.equals("0"))
+                if(digs.equals("0") || digs.equals("0.0"))
                 {
                    digs = ""; 
                 }
@@ -219,6 +262,14 @@ public class Calculadora implements ActionListener {
             atual = 2;
             exe();
         }
+        
+        public void clear(){
+            
+        }
+        
+        public void clearEntry(){
+            
+        }
     }//interna
 
 //estado 2
@@ -244,6 +295,14 @@ public class Calculadora implements ActionListener {
             opu = un;
             exe();
         }
+        
+        public void clear(){
+            
+        }
+        
+        public void clearEntry(){
+            
+        }
     }//interna
 
     //Definindo o metodo actionPerformed da interface 'ActionListener' ...
@@ -268,20 +327,11 @@ public class Calculadora implements ActionListener {
         } else if (tecla.equals("RESULTADO")) {
             estado[atual].eval();
         } else if (tecla.equals("CE")) {
-            acc = 0;
-            digs = "";
-            show(acc);
-            decimal = false;
+           estado[atual].clearEntry();
         } else if (tecla.equals("C")) {
-            acc = 0;
-            val = 0;
-            digs = "";
-            show(val);
-            decimal = false;
+            estado[atual].clear();
         } else if (tecla.equals("SINAL")) {
-            String s = visor.getText();
-            digs = "" + (-1*Double.parseDouble(s));
-            visor.setText(digs);
+            inverterSinal();
         } else if (tecla.equals("RAIZ")) {
             isBin = false;
             estado[atual].eval(raiz);   
@@ -303,8 +353,7 @@ public class Calculadora implements ActionListener {
             isBin = false;
             estado[atual].eval(msub);
         } else if (tecla.equals("PORCENTAGEM")){
-            isBin = false;
-            estado[atual].eval(percentage);
+            porcentagem();
         }
 
     }
