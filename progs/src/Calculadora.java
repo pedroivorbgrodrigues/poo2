@@ -204,11 +204,22 @@ public class Calculadora implements ActionListener {
         }
         
         public void clear(){
-            
+            digs = "";
+            acc = 0.0;
+            val = 0.0;
+            mem = 0.0;
+            op = null;
+            opu = null;
+            atual = 0;
+            decimal = false;
+            isBin = true;
+            show(val);
         }
         
         public void clearEntry(){
-            
+            val = 0.0;
+            digs = "";
+            show(val);
         }
     }//interna
 
@@ -264,11 +275,22 @@ public class Calculadora implements ActionListener {
         }
         
         public void clear(){
-            
+            digs = "";
+            acc = 0.0;
+            val = 0.0;
+            mem = 0.0;
+            op = null;
+            opu = null;
+            atual = 0;
+            decimal = false;
+            isBin = true;
+            show(val);
         }
         
         public void clearEntry(){
-            
+            val = 0.0;
+            digs = "";
+            show(val);
         }
     }//interna
 
@@ -297,11 +319,22 @@ public class Calculadora implements ActionListener {
         }
         
         public void clear(){
-            
+            digs = "";
+            acc = 0.0;
+            val = 0.0;
+            mem = 0.0;
+            op = null;
+            opu = null;
+            atual = 0;
+            decimal = false;
+            isBin = true;
+            show(val);
         }
         
         public void clearEntry(){
-            
+            val = 0.0;
+            digs = "";
+            show(val);
         }
     }//interna
 
