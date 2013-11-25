@@ -18,6 +18,28 @@ class GUI extends JFrame {
     protected JTextField visor;
     protected JTextField historico;
     
+    private class ControladorDeTeclado implements KeyEventDispatcher {
+        private ActionListener al;
+        public ControladorDeTeclado(ActionListener Ouvinte)
+        {
+            al = Ouvinte;
+        }
+        
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+            char k = e.getKeyChar();
+            String actionCommand = String.valueOf(k);
+            if(Character.isDigit(k))
+                actionCommand = "$"+actionCommand;       
+            ActionEvent ae = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, actionCommand);
+            if (e.getID() == KeyEvent.KEY_TYPED) {
+                System.out.println("Tecla "+k+" digitada");
+                al.actionPerformed(ae);
+            }
+            return false;
+        }
+    }
+    
     GUI(ActionListener Ouvinte) {
 
     //Utilizando o 'ContentPane' default ...
@@ -71,8 +93,8 @@ class GUI extends JFrame {
         c.gridx = 0;
         c.gridy = 0;
         c.fill = GridBagConstraints.BOTH;
-        Tecla = new JButton("");
-        Tecla.setActionCommand("MC");
+        Tecla = new JButton(">");
+        Tecla.setActionCommand(">");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla, c);
         Tecla.setFocusable(false);//estetica (entre outras possiveis)
@@ -293,14 +315,14 @@ class GUI extends JFrame {
         c.gridx = 8;
         c.gridy = 2;
         Tecla = new JButton("/");
-        Tecla.setActionCommand("DIVISAO");
+        Tecla.setActionCommand("/");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);
         
         c.gridx = 9;
         c.gridy = 2;
         Tecla = new JButton("%");
-        Tecla.setActionCommand("PORCENTAGEM");
+        Tecla.setActionCommand("%");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);
 
@@ -323,7 +345,7 @@ class GUI extends JFrame {
         c.gridx = 2;
         c.gridy = 3;
         Tecla = new JButton("cos");
-        Tecla.setActionCommand("cosh");
+        Tecla.setActionCommand("COS");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla, c);
         Tecla.setFocusable(false);//estetica (entre outras possiveis)
@@ -368,7 +390,7 @@ class GUI extends JFrame {
         c.gridx = 8;
         c.gridy = 3;
         Tecla = new JButton("*");
-        Tecla.setActionCommand("PRODUTO");
+        Tecla.setActionCommand("*");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);
 
@@ -443,7 +465,7 @@ class GUI extends JFrame {
         c.gridx = 8;
         c.gridy = 4;
         Tecla = new JButton("-");
-        Tecla.setActionCommand("MENOS");
+        Tecla.setActionCommand("-");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);
         
@@ -452,7 +474,7 @@ class GUI extends JFrame {
         c.gridheight = 2;
         c.fill = GridBagConstraints.BOTH;
         Tecla = new JButton("=");
-        Tecla.setActionCommand("RESULTADO");
+        Tecla.setActionCommand("=");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);
 
@@ -517,7 +539,7 @@ class GUI extends JFrame {
         c.gridx = 8;
         c.gridy = 5;
         Tecla = new JButton("+");
-        Tecla.setActionCommand("SOMA");
+        Tecla.setActionCommand("+");
         Tecla.addActionListener(Ouvinte);
         Teclado.add(Tecla,c);        
 
@@ -537,6 +559,9 @@ class GUI extends JFrame {
         //setSize(200,250); //... do 'JFrame' em pixels.
         pack(); //... para juntar os componentes.
         setVisible(true); //... este JFrame e todos os seus componentes.
+        
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new ControladorDeTeclado(Ouvinte));
     }//GUI()
 
 }//GUI
@@ -552,12 +577,13 @@ class TesteGUI implements ActionListener {
 
     void show(String val) {
         gui.visor.setText(val);
-    }
+    }   
+    
 
     public static void main(String[] args) {
         gui = new GUI(new TesteGUI());
         //Inicializando parametros ... 
-        gui.setTitle("Calculadora"); //... do 'JFrame'. 
+        gui.setTitle("Calculadora"); //... do 'JFrame'.         
         //gui.setSize(200,250); //... do 'JFrame' em pixels. 
         gui.pack(); //... para juntar os componentes. 
         //gui.setLocationRelativeTo(null);//... por no meio da tela
