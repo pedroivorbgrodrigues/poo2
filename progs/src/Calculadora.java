@@ -247,7 +247,6 @@ public class Calculadora implements ActionListener {
         digs = "";
         acc = 0.0;
         val = 0.0;
-        mem = 0.0;
         op = inicial;
         opu = inicialUn;
         atual = 0;
