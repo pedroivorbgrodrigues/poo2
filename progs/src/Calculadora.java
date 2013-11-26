@@ -146,27 +146,7 @@ public class Calculadora implements ActionListener {
             }
         }
 
-    }, ms = new OpUn() {
-        public double un(double x) {
-            operationLog += "MS: " + x + "\r\n";
-            mem = x;
-            return mem;
-        }
-    }, madd = new OpUn() {
-        public double un(double x) {
-            operationLog += "M+: " + mem + " + " + x + "\r\n";
-            mem += x;
-            operationLog += " = " + mem;
-            return x;
-        }
-    }, msub = new OpUn() {
-        public double un(double x) {
-            operationLog += "M-: " + mem + " - " + x + "\r\n";
-            mem -= x;
-            operationLog += " = " + mem;
-            return x;
-        }
-    }, inicialUn = new OpUn() {
+    },  inicialUn = new OpUn() {
         public double un(double x) {
             return acc;
         }
@@ -214,6 +194,28 @@ public class Calculadora implements ActionListener {
         public double un(double x) {
             return Math.log10(x);
         }
+    },ms = new OpUn() {
+        public double un(double x)
+        {
+            operationLog += "MS: " + x + "\r\n";
+            mem = x;
+            return mem;
+        }
+    }, madd = new OpUn() {
+        public double un(double x)
+        {
+            mem += x;
+            operationLog += " = " + mem+"\r\n";
+            return x;
+        }
+    }, msub = new OpUn() {
+        public double un(double x)
+        {
+            operationLog += "M-: " + mem + " - " + x;
+            mem -= x;
+            operationLog += " = " + mem + "\r\n";
+            return x;
+        }
     };
 
     Calculadora() {
@@ -229,15 +231,9 @@ public class Calculadora implements ActionListener {
 
     }
 
-    /*void clearEntry()
-     {
-     val = 0;
-     digs = "";
-     show(val);
-     decimal = false;
-     atual = 0;
-     }
-     */
+    
+ 
+            
     void pi(){
         val = Math.PI;
         show(val);
@@ -269,7 +265,7 @@ public class Calculadora implements ActionListener {
 
     void exportarLogParaArquivoTxt() {
         try {
-            printer = new PrintWriter("filename.txt");
+            printer = new PrintWriter("memoryLog.txt");
             printer.print(operationLog);
             printer.close();
         } catch (FileNotFoundException ex) {
@@ -327,7 +323,7 @@ public class Calculadora implements ActionListener {
             opu = un;
             atual = 2;
             exe();
-        }
+        }        
 
         public void clear() {
             clearAll();
@@ -397,7 +393,7 @@ public class Calculadora implements ActionListener {
             atual = 2;
             exe();
         }
-
+        
         public void clear() {
             clearAll();
         }
